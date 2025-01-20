@@ -1,13 +1,26 @@
 {
-  "name": "vercel-express-api",
+  "name": "itinerary-backend",
   "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "type": "module",
-  "dependencies": {
-    "express": "^4.18.2",
-    "openai": "^4.28.0",
-    "dotenv": "^16.3.1"
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "engines": {
-    "node": ">=18"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanket-25/itinerary-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanket-25/itinerary-backend/issues"
+  },
+  "homepage": "https://github.com/sanket-25/itinerary-backend#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "openai": "^4.79.1",
+    "punycode": "^2.3.1"
   }
 }
