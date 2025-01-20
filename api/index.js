@@ -1,15 +1,8 @@
-import express from 'express';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
 dotenv.config();
-
-// Initialize express app
-const app = express();
-
-// Parse incoming JSON requests
-app.use(express.json());
 
 // Your GitHub Personal Access Token
 const token = process.env["GITHUB_TOKEN"];
@@ -28,7 +21,7 @@ async function getOpenAIResponse(question) {
         { role: "system", content: "JSON" },
         { role: "user", content: question }
       ],
-      model: "gpt-4o",  // Replace with the model you are using
+      model: "gpt-4o", // Replace with the model you are using
       temperature: 1,
       max_tokens: 4096,
       top_p: 1,
@@ -41,8 +34,12 @@ async function getOpenAIResponse(question) {
   }
 }
 
-// Define an API endpoint
-app.post('/ask', async (req, res) => {
+// Export a default handler for Vercel
+export default async (req, res) => {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: "Only POST requests are allowed" });
+  }
+
   const { question } = req.body;
 
   if (!question) {
@@ -55,10 +52,4 @@ app.post('/ask', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
-
-// Set up the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+};
