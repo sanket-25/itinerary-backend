@@ -1,0 +1,32 @@
+# Node.js dependencies
+/node_modules/
+
+# Environment variables file containing secrets (e.g., GITHUB_TOKEN, API keys)
+.env
+
+# npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE and editor-specific files
+.vscode/
+.idea/
+
+# Operating system-specific files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Coverage directory (for code coverage reports)
+coverage/
+
+# Build artifacts (e.g., for compiled TypeScript, bundling)
+dist/
+build/
+
+# Temporary files
+*.swp
+*.swo
