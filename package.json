@@ -21,6 +21,7 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "openai": "^4.79.1"
+    "openai": "^4.79.1",
+    "punycode": "^2.3.1"
   }
 }

@@ -1,8 +1,15 @@
+import express from 'express';
 import OpenAI from 'openai';
 import dotenv from 'dotenv';
 
 // Load environment variables from .env file
 dotenv.config();
+
+// Initialize express app
+const app = express();
+
+// Parse incoming JSON requests
+app.use(express.json());
 
 // Your GitHub Personal Access Token
 const token = process.env["GITHUB_TOKEN"];
@@ -21,7 +28,7 @@ async function getOpenAIResponse(question) {
         { role: "system", content: "JSON" },
         { role: "user", content: question }
       ],
-      model: "gpt-4o", // Replace with the model you are using
+      model: "gpt-4o",  // Replace with the model you are using
       temperature: 1,
       max_tokens: 4096,
       top_p: 1,
@@ -34,27 +41,29 @@ async function getOpenAIResponse(question) {
   }
 }
 
-// Export a default handler for Vercel
-export default async (req, res) => {
-  if (req.method === 'GET') {
-    // "Hello World" API
-    return res.status(200).json({ message: "Hello World" });
+// Define an API endpoint for "Hello World"
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
+// Define an API endpoint for /ask
+app.post('/ask', async (req, res) => {
+  const { question } = req.body;
+
+  if (!question) {
+    return res.status(400).json({ error: "Question is required" });
   }
 
-  if (req.method === 'POST') {
-    const { question } = req.body;
-
-    if (!question) {
-      return res.status(400).json({ error: "Question is required" });
-    }
-
-    try {
-      const answer = await getOpenAIResponse(question);
-      res.json({ answer });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  } else {
-    return res.status(405).json({ error: "Method Not Allowed" });
+  try {
+    const answer = await getOpenAIResponse(question);
+    res.json({ answer });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-};
+});
+
+// Set up the server
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
