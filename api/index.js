@@ -36,20 +36,25 @@ async function getOpenAIResponse(question) {
 
 // Export a default handler for Vercel
 export default async (req, res) => {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: "Only POST requests are allowed" });
+  if (req.method === 'GET') {
+    // "Hello World" API
+    return res.status(200).json({ message: "Hello World" });
   }
 
-  const { question } = req.body;
+  if (req.method === 'POST') {
+    const { question } = req.body;
 
-  if (!question) {
-    return res.status(400).json({ error: "Question is required" });
-  }
+    if (!question) {
+      return res.status(400).json({ error: "Question is required" });
+    }
 
-  try {
-    const answer = await getOpenAIResponse(question);
-    res.json({ answer });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    try {
+      const answer = await getOpenAIResponse(question);
+      res.json({ answer });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  } else {
+    return res.status(405).json({ error: "Method Not Allowed" });
   }
 };
